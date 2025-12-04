@@ -1,22 +1,23 @@
 import React, { useState, useEffect, useRef } from "react";
 import GameToolbar from "./GameToolbar";
 
-type ModeKey = "do" | "say" | "think" | "story" | "continue" | "erase";
+/**
+ * @typedef {"do" | "say" | "think" | "story" | "continue" | "erase"} ModeKey
+ *
+ * @typedef {object} GameInterfaceProps
+ * @property {string} worldSummary
+ * @property {string} characterName
+ * @property {string} characterClass
+ * @property {string} characterBackground
+ * @property {string} aiInstructions
+ * @property {string} authorsNote
+ *
+ * @typedef {{ role: "user" | "assistant"; content: string; }} Message
+ */
 
-type GameInterfaceProps = {
-  worldSummary: string;
-  characterName: string;
-  characterClass: string;
-  characterBackground: string;
-  aiInstructions: string;
-  authorsNote: string;
-};
-
-type Message = {
-  role: "user" | "assistant";
-  content: string;
-};
-
+/**
+ * @param {GameInterfaceProps} props
+ */
 export default function GameInterface({
   worldSummary,
   characterName,
@@ -24,11 +25,13 @@ export default function GameInterface({
   characterBackground,
   aiInstructions,
   authorsNote,
-}: GameInterfaceProps) {
-  const [messages, setMessages] = useState<Message[]>([]);
+}) {
+  // Type annotations removed
+  const [messages, setMessages] = useState([]);
   const [currentInput, setCurrentInput] = useState("");
-  const [activeMode, setActiveMode] = useState<ModeKey>("story");
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const [activeMode, setActiveMode] = useState("story");
+  // Type annotation removed
+  const messagesEndRef = useRef(null);
   const [loading, setLoading] = useState(false);
 
   // Scroll to bottom when messages update
@@ -36,7 +39,11 @@ export default function GameInterface({
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  const sendMessage = async (userInput: string, mode: ModeKey) => {
+  /**
+   * @param {string} userInput
+   * @param {ModeKey} mode
+   */
+  const sendMessage = async (userInput, mode) => {
     if (!userInput && mode !== "continue" && mode !== "erase") return;
 
     let updatedMessages = [...messages];
@@ -99,7 +106,10 @@ export default function GameInterface({
     }
   };
 
-  const handleModeSelect = (mode: ModeKey) => {
+  /**
+   * @param {ModeKey} mode
+   */
+  const handleModeSelect = (mode) => {
     setActiveMode(mode);
     if (mode === "continue") {
       sendMessage("", "continue");
@@ -108,7 +118,10 @@ export default function GameInterface({
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  /**
+   * @param {React.FormEvent} e
+   */
+  const handleSubmit = (e) => {
     e.preventDefault();
     sendMessage(currentInput, activeMode);
   };
