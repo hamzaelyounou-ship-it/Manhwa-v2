@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 
-export default function HomeInterface({ onStart }: { onStart: (payload: any)=>void }) {
+/**
+ * @param {object} props
+ * @param {(payload: object) => void} props.onStart
+ */
+export default function HomeInterface({ onStart }) {
   const [world, setWorld] = useState('');
   const [genre, setGenre] = useState('Fantasy');
   const [character, setCharacter] = useState('');
