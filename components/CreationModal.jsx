@@ -10,28 +10,27 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
-interface CreationModalProps {
-    isOpen: boolean;
-    onClose: () => void;
-    onSave: (data: any) => void;
-}
+/**
+ * @typedef {"PLOT" | "CHARACTER" | "RULES" | "APPEARANCE"} TabType
+ *
+ * @typedef {object} CreationModalProps
+ * @property {boolean} isOpen
+ * @property {() => void} onClose
+ * @property {(data) => void} onSave
+ */
 
 /**
  * TABS:
  * - PLOT
  * - CHARACTER
  * - RULES
- * - APPEARANCE  ✅ NEW
+ * - APPEARANCE
+ *
+ * @param {CreationModalProps} props
  */
-type TabType = "PLOT" | "CHARACTER" | "RULES" | "APPEARANCE";
-
-const CreationModal: React.FC<CreationModalProps> = ({
-    isOpen,
-    onClose,
-    onSave,
-}) => {
-    // ACTIVE TAB  (now includes "APPEARANCE")
-    const [activeTab, setActiveTab] = useState<TabType>("PLOT");
+const CreationModal = ({ isOpen, onClose, onSave }) => {
+    // ACTIVE TAB (Type annotations removed)
+    const [activeTab, setActiveTab] = useState("PLOT");
 
     // --- PLOT TAB ---
     const [summary, setSummary] = useState("");
@@ -51,6 +50,7 @@ const CreationModal: React.FC<CreationModalProps> = ({
     const [bgColor, setBgColor] = useState("#000000");
 
     const handleSave = () => {
+        // Removed type annotation from onSave argument
         onSave({
             plot: {
                 summary,
@@ -67,7 +67,7 @@ const CreationModal: React.FC<CreationModalProps> = ({
                 authorsNote,
             },
             appearance: {
-                bgColor, // <-- NEW
+                bgColor,
             },
         });
         onClose();
