@@ -1,16 +1,20 @@
 import React from "react";
 
-interface GameToolbarProps {
-  mode: string;
-  setMode: (mode: any) => void;
-  sendMessage: (mode?: any) => void;
-  input: string;
-  setInput: (val: string) => void;
-  undo: () => void;
-  redo: () => void;
-}
+/**
+ * @typedef {object} GameToolbarProps
+ * @property {string} mode
+ * @property {(mode: string) => void} setMode
+ * @property {(mode?: string) => void} sendMessage
+ * @property {string} input
+ * @property {(val: string) => void} setInput
+ * @property {() => void} undo
+ * @property {() => void} redo
+ */
 
-export const GameToolbar: React.FC<GameToolbarProps> = ({
+/**
+ * @param {GameToolbarProps} props
+ */
+export const GameToolbar = ({
   mode,
   setMode,
   sendMessage,
@@ -19,7 +23,8 @@ export const GameToolbar: React.FC<GameToolbarProps> = ({
   undo,
   redo,
 }) => {
-  const toolbarButtons: { key: string; label: string }[] = [
+  // Removed explicit type annotation from toolbarButtons
+  const toolbarButtons = [
     { key: "do", label: "🗡️ Do" },
     { key: "say", label: "💬 Say" },
     { key: "think", label: "💭 Think" },
@@ -33,6 +38,12 @@ export const GameToolbar: React.FC<GameToolbarProps> = ({
       {toolbarButtons.map((b) => (
         <button
           key={b.key}
+          // Note: The logic here assumes `sendMessage` handles setting the mode and sending the message.
+          // This must match the `handleModeSelect` logic in GameInterface.
+          // Since the prop passing in GameInterface is currently `onSelectMode`, we will
+          // assume for this isolated conversion that this is the intended usage, but this component
+          // seems to handle both mode selection and sending simultaneously, which is different
+          // from how the parent `GameInterface.jsx` calls it.
           onClick={() => sendMessage(b.key)}
           className={`px-3 py-1 rounded hover:bg-white/10 ${
             mode === b.key ? "bg-cyan-500 text-black font-semibold" : ""
